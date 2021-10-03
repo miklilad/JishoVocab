@@ -1,0 +1,24 @@
+{
+  "name": "jishovocab",
+  "version": "1.0.0",
+  "description": "Tampermonkey (Greasemonkey) userscript for jisho.org that adds ability to save words",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miklilad/JishoVocab.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/miklilad/JishoVocab/issues"
+  },
+  "homepage": "https://github.com/miklilad/JishoVocab#readme",
+  "dependencies": {
+    "anki-apkg-export": "^4.0.3",
+    "file-saver": "^2.0.5"
+  }
+}

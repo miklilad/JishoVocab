@@ -1,3 +1,6 @@
+const saveAs = require('file-saver');
+const AnkiExport = require('anki-apkg-export').default;
+
 function createVocabLink() {
     const link = document.getElementsByClassName("links")[0]
     const vocabLinkListItem = document.createElement("li")
@@ -36,13 +39,46 @@ function showVocabulary() {
     setupWordClick(pageContainer)
     blurFurigana(pageContainer)
     createClearVocabLink(pageContainer)
+    createExportLink(pageContainer)
+    pageContainer.insertAdjacentHTML("afterbegin", "<h4 style='font-weight: bold'>Vocabulary</h4>")
+}
+
+function createExportLink(elem) {
+    const exportLink = document.createElement("div")
+    exportLink.innerHTML = "<a>Export as Anki deck</a>"
+    elem.append(exportLink)
+    exportLink.addEventListener("click", () => {
+        exportAsAnki()
+    })
+}
+
+function exportAsAnki() {
+    const keys = GM_listValues().map(key => key.trim())
+
+    const deckName = `JishoDeck${new Date().toISOString().substr(0,19)}`
+    
+    const apkg = new AnkiExport(deckName);
+    
+    for(let key of keys) {
+        const value = GM_getValue(key)
+        const dummyElement = document.createElement('html')
+        dummyElement.innerHTML = value
+        const meanings = dummyElement.querySelector(".meanings-wrapper").outerHTML
+        apkg.addCard(key, meanings);
+    }
+
+    apkg
+    .save()
+    .then(zip => {
+        saveAs(zip, `${deckName}.apkg`);
+    })
+    .catch(err => console.log(err.stack || err));
 }
 
 function createClearVocabLink(elem) {
-    const clearVocabLink = document.createElement("a")
-    clearVocabLink.textContent = "Clear vocabulary"
+    const clearVocabLink = document.createElement("div")
+    clearVocabLink.innerHTML = "<a>Clear vocabulary</a>"
     elem.append(clearVocabLink)
-    elem.insertAdjacentHTML("afterbegin", "<h4 style='font-weight: bold'>Vocabulary</h4>")
     clearVocabLink.addEventListener("click", () => {
         if(confirm("Are you sure?")) {
             clearVocab()
@@ -90,7 +126,7 @@ function hideMeanings(elem) {
 
 function getWordFromSaveLink(link) {
     const wordDiv = getWordDiv(link)
-    return wordDiv.querySelector(".text").textContent
+    return wordDiv.querySelector(".text").textContent.trim()
 }
 
 //Replaces save word links with remove word links when in vocabulary
