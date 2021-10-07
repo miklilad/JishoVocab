@@ -27990,6 +27990,6 @@ https://github.com/nodeca/pako/blob/master/LICENSE
 
 }).call(this)}).call(this,require("buffer").Buffer)
 },{"buffer":64,"charenc":194,"crypt":195}],199:[function(require,module,exports){
-const AnkiExport = require('anki-apkg-export')
-const saveAs = require('file-saver')
+var AnkiExport = require('anki-apkg-export').default
+var saveAs = require('file-saver')
 },{"anki-apkg-export":191,"file-saver":196}]},{},[199]);
