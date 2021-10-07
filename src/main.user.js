@@ -1,5 +1,4 @@
-const saveAs = require('file-saver');
-const AnkiExport = require('anki-apkg-export').default;
+const exportAsAnki = require('./exportAsAnki')
 
 function createVocabLink() {
     const link = document.getElementsByClassName("links")[0]
@@ -50,29 +49,6 @@ function createExportLink(elem) {
     exportLink.addEventListener("click", () => {
         exportAsAnki()
     })
-}
-
-function exportAsAnki() {
-    const keys = GM_listValues().map(key => key.trim())
-
-    const deckName = `JishoDeck${new Date().toISOString().substr(0,19)}`
-    
-    const apkg = new AnkiExport(deckName);
-    
-    for(let key of keys) {
-        const value = GM_getValue(key)
-        const dummyElement = document.createElement('html')
-        dummyElement.innerHTML = value
-        const meanings = dummyElement.querySelector(".meanings-wrapper").outerHTML
-        apkg.addCard(key, meanings);
-    }
-
-    apkg
-    .save()
-    .then(zip => {
-        saveAs(zip, `${deckName}.apkg`);
-    })
-    .catch(err => console.log(err.stack || err));
 }
 
 function createClearVocabLink(elem) {

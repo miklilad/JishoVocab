@@ -2,9 +2,11 @@
   "name": "jishovocab",
   "version": "1.0.0",
   "description": "Tampermonkey (Greasemonkey) userscript for jisho.org that adds ability to save words",
-  "main": "main.js",
+  "main": "./dist/main.user.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clear": "rm -rf dist",
+    "browserify": "browserify src/main.user.js -o dist/temp.js",
+    "build": "npm run clear; npm run browserify; cat src/main.meta.js dist/temp.js > dist/main.user.js; rm -f dist/temp.js"
   },
   "repository": {
     "type": "git",
