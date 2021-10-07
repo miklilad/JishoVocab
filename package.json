@@ -4,9 +4,8 @@
   "description": "Tampermonkey (Greasemonkey) userscript for jisho.org that adds ability to save words",
   "main": "./dist/main.user.js",
   "scripts": {
-    "clear": "rm -rf dist",
     "browserify": "browserify src/main.user.js -o dist/temp.js",
-    "build": "npm run clear; npm run browserify; cat src/main.meta.js dist/temp.js > dist/main.user.js; rm -f dist/temp.js"
+    "build": "npm run browserify; cat src/main.meta.js dist/temp.js > dist/main.user.js; rm -f dist/temp.js"
   },
   "repository": {
     "type": "git",
